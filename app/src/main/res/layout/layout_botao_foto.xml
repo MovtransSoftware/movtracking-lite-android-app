@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/btnCapturarFoto"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/btn_foto_selector"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:drawableLeft="@drawable/ic_camera_clean"
+        android:drawablePadding="12dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Tirar foto"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/tvNomeArquivo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Nenhuma foto anexada"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        android:fontFamily="sans-serif-medium" />
+</LinearLayout>
