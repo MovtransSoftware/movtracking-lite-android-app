@@ -7,7 +7,6 @@ data class Entrega(
     val nome: String,
     val endereco: String,
     val telefone: String?,
-    // Novos campos adicionados abaixo:
     val cteNumero: String?,
     val cteChave: String?,
     val nfeNumero: String?,

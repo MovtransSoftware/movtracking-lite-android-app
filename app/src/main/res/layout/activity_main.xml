@@ -9,8 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Versão Lite 1.0.0"
+        android:layout_gravity="center_horizontal"
         android:letterSpacing="0.1"
+        android:text="Versão Lite 1.0.0"
         android:textColor="@color/semi_white"
         android:textSize="12sp" />
 
@@ -18,8 +19,8 @@
         android:id="@+id/ivLogo"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
-        android:layout_marginTop="64dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="64dp"
         android:adjustViewBounds="true"
         android:contentDescription="Logotipo Movtrans"
         android:src="@drawable/movtrans_logo" />
@@ -59,19 +60,30 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-
-
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btnSalvar"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@drawable/bg_button"
-        android:text="REGISTRAR CELULAR"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:layout_height="55dp">
+
+        <Button
+            android:id="@+id/btnSalvar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_button"
+            android:text="REGISTRAR CELULAR"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="#FFFFFF"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>
