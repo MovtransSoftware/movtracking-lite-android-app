@@ -18,7 +18,6 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private val PERMISSOES = arrayOf(Manifest.permission.INTERNET, Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE)
-
     private val apiService = MovtransClient.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
         val tvIdDisplay = findViewById<TextView>(R.id.tvIdDisplay)
-        val etEmpresa = findViewById<EditText>(R.id.etEmpresa)
+        val etEmpresa =  findViewById<EditText>(R.id.etEmpresa)
         val btnSalvar = findViewById<Button>(R.id.btnSalvar)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
 
@@ -54,31 +53,37 @@ class MainActivity : AppCompatActivity() {
                 btnSalvar.isEnabled = false
                 progressBar.visibility = View.VISIBLE
 
-                val loginData = LoginRequest(aliases = emp, imei = deviceId)
+                val loginData = LoginRequest("container25", "6b51c4813eb2360d")
 
                 apiService.realizarLogin(loginData).enqueue(object : Callback<LoginResponse> {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         resetarBotao(btnSalvar, progressBar)
 
                         if (response.isSuccessful) {
-                            val loginResponse = response.body()
-                            val token = loginResponse?.dados?.token
+                            val body = response.body()
 
-                            if (loginResponse?.success == true && token != null) {
-                                PreferencesHelper.saveRegistration(this@MainActivity, emp, deviceId, token)
-                                irParaRomaneio()
+                            if (body?.success == true) {
+                                val dadosMap = body.dados as? Map<*, *>
+                                val token = dadosMap?.get("token") as? String
+
+                                if (token != null) {
+                                    PreferencesHelper.saveRegistration(this@MainActivity, emp, deviceId, token)
+                                    irParaRomaneio()
+                                } else {
+                                    Toast.makeText(this@MainActivity, "Token não encontrado", Toast.LENGTH_SHORT).show()
+                                }
                             } else {
-                                val msg = loginResponse?.message ?: "Dados inválidos"
-                                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_LONG).show()
+                                val erroMsg = body?.message ?: "Dados inválidos"
+                                Toast.makeText(this@MainActivity, erroMsg, Toast.LENGTH_LONG).show()
                             }
                         } else {
-                            Toast.makeText(this@MainActivity, "Erro no servidor: ${response.code()}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@MainActivity, "Erro servidor: ${response.code()}", Toast.LENGTH_LONG).show()
                         }
                     }
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         resetarBotao(btnSalvar, progressBar)
-                        Toast.makeText(this@MainActivity, "Falha de conexão: ${t.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, "Falha de rede: ${t.message}", Toast.LENGTH_LONG).show()
                     }
                 })
             } else {

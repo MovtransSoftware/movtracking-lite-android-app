@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="#F5F5F5"
     android:orientation="vertical">
 
     <ScrollView
@@ -29,16 +31,16 @@
                     android:layout_height="48dp"
                     android:src="@drawable/ic_back"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Voltar"
-                    android:tint="@color/primary" />
+                    app:tint="@color/primary" />
 
                 <TextView
+                    android:id="@+id/tvTituloTela"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="DETALHES DA ENTREGA"
                     android:textColor="@color/primary"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:fontFamily="sans-serif-medium"
                     android:textAllCaps="true"
                     android:textStyle="bold" />
@@ -48,13 +50,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_card"
+                android:elevation="2dp"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DADOS DO CT-E"
+                    android:text="DOCUMENTO DE TRANSPORTE"
                     android:textColor="@color/primary"
                     android:textSize="11sp"
                     android:textStyle="bold" />
@@ -63,36 +66,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Número"
+                    android:text="Nº Controle / Documento"
                     android:textSize="11sp"
-                    android:textColor="@color/text_secondary" />
+                    android:textColor="#757575" />
 
                 <TextView
                     android:id="@+id/tvCteNumero"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_main"
+                    android:textColor="#212121"
                     android:textSize="16sp"
-                    android:textAllCaps="true"
                     android:textStyle="bold" />
 
                 <View android:layout_width="match_parent" android:layout_height="1dp"
-                    android:background="@color/divider" android:layout_marginVertical="8dp" />
+                    android:background="#EEEEEE" android:layout_marginVertical="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chave de Acesso"
+                    android:text="Chave de Acesso (NF-e)"
                     android:textSize="11sp"
-                    android:textColor="@color/text_secondary" />
+                    android:textColor="#757575" />
 
                 <TextView
                     android:id="@+id/tvCteChave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_main"
-                    android:textSize="16sp"
-                    android:textAllCaps="true"
+                    android:textColor="#212121"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -101,33 +102,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_card"
+                android:elevation="2dp"
                 android:orientation="vertical"
                 android:padding="16dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DADOS DA NF-E"
+                    android:text="DADOS DA NOTA FISCAL"
                     android:textColor="@color/primary"
                     android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Número da Nota"
-                    android:textSize="11sp"
-                    android:textColor="@color/text_secondary" />
-
-                <TextView
                     android:id="@+id/tvNfeNumero"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_main"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#212121"
                     android:textSize="16sp"
-                    android:textAllCaps="true"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:text="Nenhuma nota vinculada" />
             </LinearLayout>
 
             <LinearLayout
@@ -135,10 +130,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 android:background="@drawable/bg_card"
+                android:elevation="2dp"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/tvLabelCarga"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DADOS DO DESTINATÁRIO"
@@ -150,42 +147,56 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Nome / Razão Social"
+                    android:text="Razão Social"
                     android:textSize="11sp"
-                    android:textColor="@color/text_secondary" />
+                    android:textColor="#757575" />
 
                 <TextView
                     android:id="@+id/tvDestinatario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_main"
+                    android:textColor="#212121"
                     android:textSize="16sp"
-                    android:textAllCaps="true"
                     android:textStyle="bold" />
 
                 <View android:layout_width="match_parent" android:layout_height="1dp"
-                    android:background="@color/divider" android:layout_marginVertical="8dp" />
+                    android:background="#EEEEEE" android:layout_marginVertical="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Endereço de Entrega"
+                    android:text="Endereço Completo"
                     android:textSize="11sp"
-                    android:textColor="@color/text_secondary" />
+                    android:textColor="#757575" />
 
                 <TextView
                     android:id="@+id/tvEndereco"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_main"
-                    android:textSize="16sp"
-                    android:textAllCaps="true"
+                    android:textColor="#212121"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <include
-                android:id="@+id/layoutLigarCarga"
-                layout="@layout/layout_botao_ligar" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="#E3F2FD">
+
+                <TextView
+                    android:id="@+id/btnLigarAcao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="LIGAR PARA CONTATO"
+                    android:textColor="#1976D2"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:drawableStart="@drawable/ic_phone_clean"
+                    android:drawablePadding="8dp"
+                    app:drawableTint="#1976D2" />
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
@@ -194,16 +205,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:background="@color/surface"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnEntrega"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
-            android:text="CONFIRMAR"
+            android:text="FINALIZAR"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:layout_marginEnd="8dp"/>
@@ -211,7 +223,7 @@
         <Button
             android:id="@+id/btnOcorrencia"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button_alt"
             android:text="OCORRÊNCIA"

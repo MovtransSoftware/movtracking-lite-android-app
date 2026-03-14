@@ -7,56 +7,83 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.movtrans.movtrackinglite.R
-import com.movtrans.movtrackinglite.model.Entrega
+import com.movtrans.movtrackinglite.model.Movimentacao
 import com.movtrans.movtrackinglite.utils.TelefoneHelper
 
 class DetalheEntregaActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalhe_entrega)
 
-        findViewById<ImageButton>(R.id.btnVoltar).setOnClickListener {
-            finish()
+        findViewById<ImageButton>(R.id.btnVoltar).setOnClickListener { finish() }
+
+        // Recebe o objeto Movimentacao (que serve para os dois tipos)
+        val mov = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("movimentacao", Movimentacao::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("movimentacao") as? Movimentacao
         }
 
-        val entrega = intent.getSerializableExtra("entrega") as? Entrega
+        if (mov != null) {
+            val ehEntrega = mov.tipo == 1
 
-        if (entrega != null) {
-            // Dados Destinatário
-            findViewById<TextView>(R.id.tvDestinatario).text = entrega.nome
-            findViewById<TextView>(R.id.tvEndereco).text = entrega.endereco
+            // 1. Ajustar Títulos e Labels dinamicamente
+            val tvTituloTela = findViewById<TextView>(R.id.tvTituloTela)
+            val tvLabelCarga = findViewById<TextView>(R.id.tvLabelCarga)
+            val btnConfirmar = findViewById<Button>(R.id.btnEntrega)
 
-            // Dados CT-e (Agora as referências abaixo vão funcionar)
-            findViewById<TextView>(R.id.tvCteNumero).text = entrega.cteNumero ?: "Não informado"
-            findViewById<TextView>(R.id.tvCteChave).text = entrega.cteChave ?: "Chave não disponível"
-
-            // Dados NF-e
-            findViewById<TextView>(R.id.tvNfeNumero).text = entrega.nfeNumero ?: "Não informado"
-
-            // Botão Ligar Dinâmico
-            val layoutLigar = findViewById<View>(R.id.layoutLigarCarga)
-            val btnLigar = layoutLigar.findViewById<TextView>(R.id.btnLigarAcao)
-
-            btnLigar.text = "Ligar: ${entrega.telefone ?: "N/A"}"
-            btnLigar.setOnClickListener {
-                TelefoneHelper.fazerLigacao(this, entrega.telefone)
+            if (ehEntrega) {
+                tvTituloTela.text = "Detalhes da Entrega"
+                tvLabelCarga.text = "DADOS DO DESTINATÁRIO"
+                btnConfirmar.text = "FINALIZAR ENTREGA"
+            } else {
+                tvTituloTela.text = "Detalhes da Coleta"
+                tvLabelCarga.text = "DADOS DO REMETENTE"
+                btnConfirmar.text = "FINALIZAR COLETA"
+                // Usa cor direta via String Hexadecimal
+                btnConfirmar.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#F57C00"))
             }
-        }
 
-        // Navegação
-        findViewById<Button>(R.id.btnEntrega).setOnClickListener {
-            val intent = Intent(this, ConfirmacaoActivity::class.java)
-            intent.putExtra("entrega", entrega)
-            startActivity(intent)
-        }
+            // 2. Preencher Dados Principais
+            findViewById<TextView>(R.id.tvDestinatario).text = mov.razao
+            findViewById<TextView>(R.id.tvEndereco).text = "${mov.endereco}, ${mov.numero} - ${mov.bairro}\n${mov.cidade}"
 
-        findViewById<Button>(R.id.btnOcorrencia).setOnClickListener {
-            val intent = Intent(this, OcorrenciaActivity::class.java)
-            intent.putExtra("entrega", entrega)
-            startActivity(intent)
+            // Dados do Documento (ndoc)
+            findViewById<TextView>(R.id.tvCteNumero).text = mov.ndoc
+
+            // 3. Lógica para Notas Fiscais (Pega a primeira nota para exibir no resumo)
+            if (mov.notasFiscais.isNotEmpty()) {
+                val primeiraNota = mov.notasFiscais[0]
+                findViewById<TextView>(R.id.tvNfeNumero).text = "Nº ${primeiraNota.numeroNota}"
+                findViewById<TextView>(R.id.tvCteChave).text = primeiraNota.chaveNota
+            } else {
+                findViewById<TextView>(R.id.tvNfeNumero).text = "Sem Notas Vinculadas"
+                findViewById<TextView>(R.id.tvCteChave).text = "Chave não disponível"
+            }
+
+            // 4. Botão Ligar
+            val btnLigar = findViewById<TextView>(R.id.btnLigarAcao)
+            btnLigar.text = "Ligar: ${mov.telefone}"
+            btnLigar.setOnClickListener {
+                TelefoneHelper.fazerLigacao(this, mov.telefone)
+            }
+
+            // 5. Navegação dos Botões de Ação
+            btnConfirmar.setOnClickListener {
+                val intent = Intent(this, ConfirmacaoActivity::class.java)
+                intent.putExtra("movimentacao", mov)
+                startActivity(intent)
+            }
+
+            findViewById<Button>(R.id.btnOcorrencia).setOnClickListener {
+                val intent = Intent(this, OcorrenciaActivity::class.java)
+                intent.putExtra("movimentacao", mov)
+                startActivity(intent)
+            }
         }
     }
 }

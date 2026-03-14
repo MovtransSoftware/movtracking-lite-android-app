@@ -5,13 +5,9 @@ data class LoginRequest(
     val imei: String
 )
 
-data class Dados(
-    val token: String
-)
-
 data class LoginResponse(
     val success: Boolean,
     val message: String,
-    val dados: Dados
+    val dados: Any?
 )
 
